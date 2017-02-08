@@ -1,6 +1,6 @@
 package coderefactory.net.popmovies;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     private ViewHolder viewHolder;
 
-    public MovieAdapter(final Activity context, final List<Movie> movies) {
+    public MovieAdapter(final Context context, final List<Movie> movies) {
         super(context, 0, movies);
     }
 
