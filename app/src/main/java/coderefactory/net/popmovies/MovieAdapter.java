@@ -12,6 +12,8 @@ import java.util.List;
 
 public class MovieAdapter extends ArrayAdapter<Movie> {
 
+    private ViewHolder viewHolder;
+
     public MovieAdapter(final Activity context, final List<Movie> movies) {
         super(context, 0, movies);
     }
@@ -19,20 +21,35 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     @NonNull
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-        final View rootView;
+        final View itemView;
         if (convertView == null) {
-            rootView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_movie, parent, false);
+            itemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_movie, parent, false);
+            viewHolder = new ViewHolder(itemView);
+            itemView.setTag(viewHolder);
         } else {
-            rootView = convertView;
+            itemView = convertView;
+            viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        populateView(position);
+
+        return itemView;
+    }
+
+    private void populateView(final int position) {
         final Movie movie = getItem(position);
 
-        final TextView titleView = (TextView) rootView.findViewById(R.id.movie_title);
-        titleView.setText(movie.getTitle());
+        viewHolder.titleView.setText(movie.getTitle());
+        viewHolder.releaseView.setText(String.valueOf(movie.getReleased()));
+    }
 
-        final TextView releaseView = (TextView) rootView.findViewById(R.id.movie_released);
-        releaseView.setText(String.valueOf(movie.getReleased()));
+    private static class ViewHolder {
+        private final TextView titleView;
+        private final TextView releaseView;
 
-        return rootView;
+        private ViewHolder(final View itemView) {
+            titleView = (TextView) itemView.findViewById(R.id.movie_title);
+            releaseView = (TextView) itemView.findViewById(R.id.movie_released);
+        }
     }
 }
