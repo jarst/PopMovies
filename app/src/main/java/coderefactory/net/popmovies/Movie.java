@@ -3,9 +3,9 @@ package coderefactory.net.popmovies;
 public class Movie {
 
     private final String title;
-    private final int released;
+    private final String released;
 
-    public Movie(final String title, final int released) {
+    public Movie(final String title, final String released) {
         this.title = title;
         this.released = released;
     }
@@ -14,7 +14,7 @@ public class Movie {
         return title;
     }
 
-    public int getReleased() {
+    public String getReleased() {
         return released;
     }
 }
