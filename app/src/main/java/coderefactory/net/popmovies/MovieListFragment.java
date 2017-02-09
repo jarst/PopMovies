@@ -9,16 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieListFragment extends Fragment {
 
-    private final List<Movie> movies = Arrays.asList(
-            new Movie("The Godfather", 1972),
-            new Movie("The Shawshank Redemption", 1994),
-            new Movie("Casablanca", 1942)
-    );
+    private MovieAdapter movieAdapter;
 
     @Nullable
     @Override
@@ -26,14 +22,17 @@ public class MovieListFragment extends Fragment {
                              @Nullable final Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_movie_list, container, false);
 
-        populateMovieList(fragmentView);
+        final ListView moviesListView = (ListView) fragmentView.findViewById(R.id.list_view_movies);
+        movieAdapter = new MovieAdapter(fragmentView.getContext(), new ArrayList<Movie>());
+        moviesListView.setAdapter(movieAdapter);
 
         return fragmentView;
     }
 
-    private void populateMovieList(final View fragmentView) {
-        final ListView lvMovies = (ListView) fragmentView.findViewById(R.id.list_view_movies);
-        final MovieAdapter moviewAdapter = new MovieAdapter(fragmentView.getContext(), movies);
-        lvMovies.setAdapter(moviewAdapter);
+    public void updateMovieList(final List<Movie> movies) {
+        movieAdapter.clear();
+        movieAdapter.addAll(movies);
+
+        movieAdapter.notifyDataSetChanged();
     }
 }
