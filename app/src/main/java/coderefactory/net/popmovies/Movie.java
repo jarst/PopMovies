@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Movie implements Serializable {
 
+    public static final String TAG = Movie.class.getSimpleName();
+
     private final String title;
     private final String released;
     private final String posterUrl;

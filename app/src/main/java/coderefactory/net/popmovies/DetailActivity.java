@@ -17,8 +17,8 @@ public class DetailActivity extends AppCompatActivity {
 
         final Intent detailIntent = getIntent();
 
-        if (detailIntent != null && detailIntent.hasExtra("movie")) {
-            final Movie movie = (Movie) detailIntent.getSerializableExtra("movie");
+        if (detailIntent != null && detailIntent.hasExtra(Movie.TAG)) {
+            final Movie movie = (Movie) detailIntent.getSerializableExtra(Movie.TAG);
 
             titleView.setText(movie.getTitle());
         }

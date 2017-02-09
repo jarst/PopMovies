@@ -51,12 +51,12 @@ public class MovieListFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(final AdapterView<?> parent, final View view, int position, final long id) {
         Log.d(TAG, "onItemClick");
         final Movie selected = movieAdapter.getItem(position);
 
         final Intent detailIntent = new Intent(this.getActivity(), DetailActivity.class);
-        detailIntent.putExtra("movie", selected);
+        detailIntent.putExtra(Movie.TAG, selected);
 
         startActivity(detailIntent);
     }
