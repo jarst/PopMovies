@@ -97,8 +97,10 @@ public class MovieProvider {
         final String originalTitle = movieObject.getString("original_title");
         final String releaseDate = movieObject.getString("release_date");
         final String posterUrl = posterUrlPrefix + movieObject.getString("poster_path");
+        final double rating = movieObject.getDouble("vote_average");
+        final String plot = movieObject.getString("overview");
 
-        return new Movie(originalTitle, releaseDate, posterUrl);
+        return new Movie(originalTitle, releaseDate, posterUrl, rating, plot);
     }
 
 

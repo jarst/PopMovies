@@ -9,11 +9,16 @@ public class Movie implements Serializable {
     private final String title;
     private final String released;
     private final String posterUrl;
+    private final double rating;
+    private final String plot;
 
-    public Movie(final String title, final String released, String posterUrl) {
+    public Movie(final String title, final String released, final String posterUrl,
+                 final double rating, final String plot) {
         this.title = title;
         this.released = released;
         this.posterUrl = posterUrl;
+        this.rating = rating;
+        this.plot = plot;
     }
 
     public String getTitle() {
@@ -26,5 +31,13 @@ public class Movie implements Serializable {
 
     public String getPosterUrl() {
         return posterUrl;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getPlot() {
+        return plot;
     }
 }
