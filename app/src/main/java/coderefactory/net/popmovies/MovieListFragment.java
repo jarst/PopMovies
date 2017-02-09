@@ -29,6 +29,12 @@ public class MovieListFragment extends Fragment {
         return fragmentView;
     }
 
+    public void clearMovieList() {
+        movieAdapter.clear();
+
+        movieAdapter.notifyDataSetChanged();
+    }
+
     public void updateMovieList(final List<Movie> movies) {
         movieAdapter.clear();
         movieAdapter.addAll(movies);

@@ -4,10 +4,12 @@ public class Movie {
 
     private final String title;
     private final String released;
+    private final String posterUrl;
 
-    public Movie(final String title, final String released) {
+    public Movie(final String title, final String released, String posterUrl) {
         this.title = title;
         this.released = released;
+        this.posterUrl = posterUrl;
     }
 
     public String getTitle() {
@@ -16,5 +18,9 @@ public class Movie {
 
     public String getReleased() {
         return released;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
     }
 }

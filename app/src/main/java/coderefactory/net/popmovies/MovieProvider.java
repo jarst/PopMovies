@@ -26,6 +26,8 @@ public class MovieProvider {
     private String paramSortBy = "sort_by";
     private String sortByPopularity = "popularity.desc";
 
+    private String posterUrlPrefix = "http://image.tmdb.org/t/p/w185";
+
     public MovieProvider(final Context context) {
         apiKey = context.getString(R.string.api_key);
     }
@@ -94,8 +96,9 @@ public class MovieProvider {
     private Movie buildMovie(final JSONObject movieObject) throws JSONException {
         final String originalTitle = movieObject.getString("original_title");
         final String releaseDate = movieObject.getString("release_date");
+        final String posterUrl = posterUrlPrefix + movieObject.getString("poster_path");
 
-        return new Movie(originalTitle, releaseDate);
+        return new Movie(originalTitle, releaseDate, posterUrl);
     }
 
 

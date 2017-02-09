@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(final List<Movie> movies) {
             if (movies == null) {
                 Toast.makeText(MainActivity.this, "Error while retrieving movies...", Toast.LENGTH_LONG).show();
+                movieListFragment.clearMovieList();
             } else {
                 movieListFragment.updateMovieList(movies);
             }
