@@ -15,6 +15,9 @@ import android.widget.GridView;
 import java.util.ArrayList;
 import java.util.List;
 
+import coderefactory.net.popmovies.data.Movie;
+import coderefactory.net.popmovies.data.MovieAdapter;
+
 public class MovieListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private static final String TAG = MovieListFragment.class.getSimpleName();

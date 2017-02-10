@@ -1,4 +1,4 @@
-package coderefactory.net.popmovies;
+package coderefactory.net.popmovies.data;
 
 import java.io.Serializable;
 

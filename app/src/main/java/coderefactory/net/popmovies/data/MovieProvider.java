@@ -1,7 +1,9 @@
-package coderefactory.net.popmovies;
+package coderefactory.net.popmovies.data;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import coderefactory.net.popmovies.R;
+import coderefactory.net.popmovies.settings.SortOrder;
+
 public class MovieProvider {
+
+    private static final String TAG = MovieProvider.class.getSimpleName();
 
     private final String baseUrl;
 
@@ -55,19 +62,21 @@ public class MovieProvider {
         jsonPlot = context.getString(R.string.json_response_overview);
     }
 
-    public List<Movie> fetchMovies(final Settings.SortOrder order) {
+    @Nullable
+    public List<Movie> fetchMovies(final SortOrder order) {
         try {
             final String json = fetchData(buildUrl(order));
             final List<Movie> movies = parseResponse(json);
 
             return movies;
         } catch (Exception e) {
+            Log.e(TAG, "Failed to retrieve movie data", e);
             return null;
         }
     }
 
-    private URL buildUrl(final Settings.SortOrder order) {
-        final String sortValue = Settings.SortOrder.Popularity == order ? sortByPopularity : sortByRating;
+    private URL buildUrl(final SortOrder order) {
+        final String sortValue = SortOrder.Popularity == order ? sortByPopularity : sortByRating;
 
         final Uri uri = Uri.parse(baseUrl).buildUpon()
                 .appendQueryParameter(paramApiKey, apiKey)

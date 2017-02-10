@@ -3,6 +3,8 @@ package coderefactory.net.popmovies;
 import java.util.Arrays;
 import java.util.List;
 
+import coderefactory.net.popmovies.data.Movie;
+
 public class TestData {
 
     static final List<Movie> oneMovie = Arrays.asList(new Movie("The Godfather", "1972", null, 0.0, null));

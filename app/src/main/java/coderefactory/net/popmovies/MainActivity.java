@@ -14,8 +14,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import coderefactory.net.popmovies.data.Movie;
+import coderefactory.net.popmovies.data.MovieProvider;
+import coderefactory.net.popmovies.settings.Settings;
+import coderefactory.net.popmovies.settings.SortOrder;
 
 
 public class MainActivity extends AppCompatActivity
@@ -23,12 +27,15 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private MovieProvider movieProvider;
     private MovieListFragment movieListFragment;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        movieProvider = new MovieProvider(this);
 
         movieListFragment = (MovieListFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_movie_list);
@@ -63,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         switch (itemId) {
             case R.id.action_refresh:
                 Log.d(TAG, "actionRefresh");
-                movieListFragment.updateMovieList(Collections.<Movie>emptyList());
+                movieListFragment.clearMovieList();
                 fetchMovies();
                 return true;
             case R.id.action_settings:
@@ -81,16 +88,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
-        private MovieProvider movieProvider;
-
         FetchMovieTask() {
             super();
-            movieProvider = new MovieProvider(MainActivity.this);
         }
 
         @Override
         protected List<Movie> doInBackground(final String... params) {
-            final Settings.SortOrder sortOder = Settings.getSortOder(MainActivity.this);
+            final SortOrder sortOder = Settings.getSortOder(MainActivity.this);
             return movieProvider.fetchMovies(sortOder);
         }
 

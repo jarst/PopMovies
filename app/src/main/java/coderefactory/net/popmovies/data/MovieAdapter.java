@@ -1,4 +1,4 @@
-package coderefactory.net.popmovies;
+package coderefactory.net.popmovies.data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import coderefactory.net.popmovies.R;
 
 
 public class MovieAdapter extends ArrayAdapter<Movie> {

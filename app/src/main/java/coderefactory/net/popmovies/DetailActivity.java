@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
+import coderefactory.net.popmovies.data.Movie;
+
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -20,6 +22,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 

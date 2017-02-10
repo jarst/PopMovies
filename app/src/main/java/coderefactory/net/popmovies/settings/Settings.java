@@ -1,8 +1,10 @@
-package coderefactory.net.popmovies;
+package coderefactory.net.popmovies.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
+
+import coderefactory.net.popmovies.R;
 
 public class Settings {
 
@@ -18,11 +20,6 @@ public class Settings {
         } else {
             return SortOrder.Rating;
         }
-
     }
 
-    public enum SortOrder {
-        Popularity,
-        Rating
-    }
 }
