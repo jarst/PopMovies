@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class MovieListFragment extends Fragment implements AdapterView.OnItemCli
                              @Nullable final Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_movie_list, container, false);
 
-        final ListView moviesListView = (ListView) fragmentView.findViewById(R.id.list_view_movies);
+        final GridView moviesListView = (GridView) fragmentView.findViewById(R.id.grid_view_movies);
         movieAdapter = new MovieAdapter(fragmentView.getContext(), new ArrayList<Movie>());
         moviesListView.setAdapter(movieAdapter);
         moviesListView.setOnItemClickListener(this);
