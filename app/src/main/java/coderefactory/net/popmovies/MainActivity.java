@@ -1,7 +1,10 @@
 package coderefactory.net.popmovies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 import android.preference.PreferenceManager;
@@ -84,7 +87,18 @@ public class MainActivity extends AppCompatActivity
 
     private void fetchMovies() {
         Log.d(TAG, "fetchMovies");
-        new FetchMovieTask().execute();
+        if (isNetworkAvailable()) {
+            new FetchMovieTask().execute();
+        } else {
+            Log.d(TAG, "Network is not available");
+            Toast.makeText(MainActivity.this, getString(R.string.message_no_network), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean isNetworkAvailable() {
+        final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
     class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
@@ -102,7 +116,8 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(final List<Movie> movies) {
             if (movies == null) {
                 Log.d(TAG, "fetchMovies failed");
-                Toast.makeText(MainActivity.this, "Error while retrieving movies...", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, MainActivity.this.getString(R.string.message_api_error),
+                        Toast.LENGTH_LONG).show();
                 movieListFragment.clearMovieList();
             } else {
                 Log.d(TAG, "fetchMovies success");
