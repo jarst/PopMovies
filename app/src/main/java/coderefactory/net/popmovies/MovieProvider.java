@@ -18,18 +18,41 @@ import java.util.Scanner;
 
 public class MovieProvider {
 
-    private String BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    private final String baseUrl;
 
-    private String paramApiKey = "api_key";
-    private String apiKey =  null;
+    private final String paramApiKey;
+    private final String apiKey;
 
-    private String paramSortBy = "sort_by";
-    private String sortByPopularity = "popularity.desc";
+    private final String paramSortBy;
+    private final String sortByPopularity;
+    private final String sortByRating;
 
-    private String posterUrlPrefix = "http://image.tmdb.org/t/p/w185";
+    private final String posterBaseUrl;
+
+    private final String jsonResults;
+    private final String jsonTitle;
+    private final String jsonReleased;
+    private final String jsonPoster;
+    private final String jsonRating;
+    private final String jsonPlot;
 
     public MovieProvider(final Context context) {
-        apiKey = context.getString(R.string.api_key);
+        baseUrl = context.getString(R.string.api_base_url);
+
+        paramApiKey = context.getString(R.string.param_api_key);
+        apiKey = context.getString(R.string.api_key_value);
+
+        paramSortBy = context.getString(R.string.param_sort_by);
+        sortByPopularity = context.getString(R.string.sort_by_popularity);
+        sortByRating = context.getString(R.string.sort_by_rating);
+        posterBaseUrl = context.getString(R.string.poster_base_url);
+
+        jsonResults = context.getString(R.string.json_response_results);
+        jsonTitle = context.getString(R.string.json_response_title);
+        jsonReleased = context.getString(R.string.json_response_release);
+        jsonPoster = context.getString(R.string.json_response_poster);
+        jsonRating = context.getString(R.string.json_response_rating);
+        jsonPlot = context.getString(R.string.json_response_overview);
     }
 
     public List<Movie> fetchMovies() {
@@ -44,7 +67,7 @@ public class MovieProvider {
     }
 
     private URL buildUrl() {
-        final Uri uri = Uri.parse(BASE_URL).buildUpon()
+        final Uri uri = Uri.parse(baseUrl).buildUpon()
                 .appendQueryParameter(paramApiKey, apiKey)
                 .appendQueryParameter(paramSortBy, sortByPopularity)
                 .build();
@@ -79,7 +102,7 @@ public class MovieProvider {
 
     private List<Movie> parseResponse(final String json) throws JSONException {
         final JSONObject rootObject = new JSONObject(json);
-        final JSONArray results = rootObject.getJSONArray("results");
+        final JSONArray results = rootObject.getJSONArray(this.jsonResults);
 
         final List<Movie> movies = new ArrayList<>(results.length());
 
@@ -94,11 +117,11 @@ public class MovieProvider {
     }
 
     private Movie buildMovie(final JSONObject movieObject) throws JSONException {
-        final String originalTitle = movieObject.getString("original_title");
-        final String releaseDate = movieObject.getString("release_date");
-        final String posterUrl = posterUrlPrefix + movieObject.getString("poster_path");
-        final double rating = movieObject.getDouble("vote_average");
-        final String plot = movieObject.getString("overview");
+        final String originalTitle = movieObject.getString(jsonTitle);
+        final String releaseDate = movieObject.getString(jsonReleased);
+        final String posterUrl = posterBaseUrl + movieObject.getString(jsonPoster);
+        final double rating = movieObject.getDouble(jsonRating);
+        final String plot = movieObject.getString(jsonPlot);
 
         return new Movie(originalTitle, releaseDate, posterUrl, rating, plot);
     }
