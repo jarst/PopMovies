@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public boolean isNetworkAvailable() {
+    private boolean isNetworkAvailable() {
         final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnectedOrConnecting();

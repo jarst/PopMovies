@@ -63,10 +63,9 @@ public class MovieProvider {
     @Nullable
     public List<Movie> fetchMovies(final SortOrder order) {
         try {
-            final String json = fetchData(buildUrl(order));
-            final List<Movie> movies = parseResponse(json);
-
-            return movies;
+            final URL url = buildUrl(order);
+            final String json = fetchData(url);
+            return parseResponse(json);
         } catch (Exception e) {
             Log.e(TAG, "Failed to retrieve movie data", e);
             return null;

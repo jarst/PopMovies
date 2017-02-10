@@ -44,7 +44,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     private void populateView(final int position) {
         final Movie movie = getItem(position);
 
-        if (movie.getPosterUrl() != null) {
+        if (movie != null && movie.getPosterUrl() != null) {
             Picasso.with(getContext())
                     .load(movie.getPosterUrl())
                     .into(viewHolder.imageView);
