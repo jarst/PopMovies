@@ -55,9 +55,9 @@ public class MovieProvider {
         jsonPlot = context.getString(R.string.json_response_overview);
     }
 
-    public List<Movie> fetchMovies() {
+    public List<Movie> fetchMovies(final Settings.SortOrder order) {
         try {
-            final String json = fetchData(buildUrl());
+            final String json = fetchData(buildUrl(order));
             final List<Movie> movies = parseResponse(json);
 
             return movies;
@@ -66,10 +66,12 @@ public class MovieProvider {
         }
     }
 
-    private URL buildUrl() {
+    private URL buildUrl(final Settings.SortOrder order) {
+        final String sortValue = Settings.SortOrder.Popularity == order ? sortByPopularity : sortByRating;
+
         final Uri uri = Uri.parse(baseUrl).buildUpon()
                 .appendQueryParameter(paramApiKey, apiKey)
-                .appendQueryParameter(paramSortBy, sortByPopularity)
+                .appendQueryParameter(paramSortBy, sortValue)
                 .build();
 
         URL url = null;
@@ -125,6 +127,5 @@ public class MovieProvider {
 
         return new Movie(originalTitle, releaseDate, posterUrl, rating, plot);
     }
-
 
 }

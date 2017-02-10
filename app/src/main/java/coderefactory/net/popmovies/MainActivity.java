@@ -1,8 +1,10 @@
 package coderefactory.net.popmovies;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +13,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -27,9 +32,21 @@ public class MainActivity extends AppCompatActivity {
 
         movieListFragment = (MovieListFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_movie_list);
+        movieListFragment.updateMovieList(new ArrayList<Movie>());
 
-        movieListFragment.updateMovieList(TestData.oneMovie);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
+        fetchMovies();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         fetchMovies();
     }
 
@@ -44,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         final int itemId = item.getItemId();
         switch (itemId) {
+            case R.id.action_refresh:
+                Log.d(TAG, "actionRefresh");
+                movieListFragment.updateMovieList(Collections.<Movie>emptyList());
+                fetchMovies();
+                return true;
             case R.id.action_settings:
                 Log.d(TAG, "actionSettings");
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -68,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected List<Movie> doInBackground(final String... params) {
-               return movieProvider.fetchMovies();
+            final Settings.SortOrder sortOder = Settings.getSortOder(MainActivity.this);
+            return movieProvider.fetchMovies(sortOder);
         }
 
         @Override
