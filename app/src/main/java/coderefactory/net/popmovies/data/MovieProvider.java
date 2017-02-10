@@ -30,9 +30,8 @@ public class MovieProvider {
     private final String paramApiKey;
     private final String apiKey;
 
-    private final String paramSortBy;
-    private final String sortByPopularity;
-    private final String sortByRating;
+    private final String popularityPath;
+    private final String ratingPath;
 
     private final String posterBaseUrl;
 
@@ -49,9 +48,8 @@ public class MovieProvider {
         paramApiKey = context.getString(R.string.param_api_key);
         apiKey = context.getString(R.string.api_key_value);
 
-        paramSortBy = context.getString(R.string.param_sort_by);
-        sortByPopularity = context.getString(R.string.sort_by_popularity);
-        sortByRating = context.getString(R.string.sort_by_rating);
+        popularityPath = context.getString(R.string.movie_by_popularity);
+        ratingPath = context.getString(R.string.movie_by_rating);
         posterBaseUrl = context.getString(R.string.poster_base_url);
 
         jsonResults = context.getString(R.string.json_response_results);
@@ -76,11 +74,10 @@ public class MovieProvider {
     }
 
     private URL buildUrl(final SortOrder order) {
-        final String sortValue = SortOrder.Popularity == order ? sortByPopularity : sortByRating;
+        final String urlPart = SortOrder.Popularity == order ? popularityPath : ratingPath;
 
-        final Uri uri = Uri.parse(baseUrl).buildUpon()
+        final Uri uri = Uri.parse(baseUrl + urlPart).buildUpon()
                 .appendQueryParameter(paramApiKey, apiKey)
-                .appendQueryParameter(paramSortBy, sortValue)
                 .build();
 
         URL url = null;
