@@ -3,6 +3,7 @@ package coderefactory.net.popmovies;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,8 @@ import java.text.DecimalFormat;
 
 
 public class DetailActivity extends AppCompatActivity {
+
+    private static final String TAG = DetailActivity.class.getSimpleName();
 
     private static final DecimalFormat RATING_FORMAT = new DecimalFormat("#.#");
 
@@ -29,6 +32,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void displayDetails(final Movie movie) {
+        Log.d(TAG, "displayDetails");
         final TextView titleView = (TextView) findViewById(R.id.movie_title);
         final ImageView posterView = (ImageView) findViewById(R.id.movie_poster);
         final TextView releasedView = (TextView) findViewById(R.id.movie_released);
@@ -36,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
         final TextView plotView = (TextView) findViewById(R.id.movie_plot);
 
         titleView.setText(movie.getTitle());
-        releasedView.setText(movie.getTitle());
+        releasedView.setText(movie.getReleased());
         ratingView.setText(RATING_FORMAT.format(movie.getRating()));
         plotView.setText(movie.getPlot());
 
