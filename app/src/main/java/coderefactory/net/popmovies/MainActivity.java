@@ -18,6 +18,7 @@ import coderefactory.net.popmovies.data.FetchMovieTask;
 import coderefactory.net.popmovies.data.Movie;
 import coderefactory.net.popmovies.data.MovieProvider;
 import coderefactory.net.popmovies.data.NetworkUtil;
+import coderefactory.net.popmovies.settings.Settings;
 
 
 public class MainActivity extends AppCompatActivity
@@ -85,9 +86,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void fetchMovies() {
+        final byte sortOder = Settings.getSortOder(this);
         Log.d(TAG, "fetchMovies");
         if (networkUtil.isNetworkAvailable()) {
-            new FetchMovieTask(this, movieProvider, movieTargetFragment).execute();
+            new FetchMovieTask(this, movieProvider, movieTargetFragment).execute(sortOder);
         } else {
             Log.d(TAG, "Network is not available");
             Toast.makeText(MainActivity.this, getString(R.string.message_no_network), Toast.LENGTH_LONG).show();

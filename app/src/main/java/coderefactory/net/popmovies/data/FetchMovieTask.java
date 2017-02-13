@@ -9,10 +9,8 @@ import java.util.List;
 
 import coderefactory.net.popmovies.MovieTargetFragment;
 import coderefactory.net.popmovies.R;
-import coderefactory.net.popmovies.settings.Settings;
-import coderefactory.net.popmovies.settings.SortOrder;
 
-public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
+public class FetchMovieTask extends AsyncTask<Byte, Void, List<Movie>> {
 
     private static final String TAG = FetchMovieTask.class.getSimpleName();
 
@@ -20,16 +18,22 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
     private final MovieProvider movieProvider;
     private final MovieTargetFragment targetFragment;
 
-    public FetchMovieTask(final Context context, final MovieProvider movieProvider, final MovieTargetFragment targetFragment) {
+    public FetchMovieTask(final Context context, final MovieProvider movieProvider,
+                          final MovieTargetFragment targetFragment) {
         this.context = context;
         this.movieProvider = movieProvider;
         this.targetFragment = targetFragment;
     }
 
     @Override
-    protected List<Movie> doInBackground(final String... params) {
-        final byte sortOder = Settings.getSortOder(context);
-        return movieProvider.fetchMovies(sortOder);
+    protected List<Movie> doInBackground(final Byte... params) {
+        if (params.length == 1) {
+            final byte sortOder = params[0];
+            return movieProvider.fetchMovies(sortOder);
+        } else {
+            Log.e(TAG, "FetchMovieTask requires sortOrder passed in execute");
+            return null;
+        }
     }
 
     @Override
