@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +16,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import coderefactory.net.popmovies.data.FetchMovieTask;
 import coderefactory.net.popmovies.data.Movie;
 import coderefactory.net.popmovies.data.MovieProvider;
-import coderefactory.net.popmovies.settings.Settings;
-import coderefactory.net.popmovies.settings.SortOrder;
 
 
 public class MainActivity extends AppCompatActivity
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity
     private void fetchMovies() {
         Log.d(TAG, "fetchMovies");
         if (isNetworkAvailable()) {
-            new FetchMovieTask().execute();
+            new FetchMovieTask(this, movieProvider, movieListFragment).execute();
         } else {
             Log.d(TAG, "Network is not available");
             Toast.makeText(MainActivity.this, getString(R.string.message_no_network), Toast.LENGTH_LONG).show();
@@ -101,29 +98,5 @@ public class MainActivity extends AppCompatActivity
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
-    class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
-        FetchMovieTask() {
-            super();
-        }
 
-        @Override
-        protected List<Movie> doInBackground(final String... params) {
-            final SortOrder sortOder = Settings.getSortOder(MainActivity.this);
-            return movieProvider.fetchMovies(sortOder);
-        }
-
-        @Override
-        protected void onPostExecute(final List<Movie> movies) {
-            if (movies == null) {
-                Log.d(TAG, "fetchMovies failed");
-                Toast.makeText(MainActivity.this, MainActivity.this.getString(R.string.message_api_error),
-                        Toast.LENGTH_LONG).show();
-                movieListFragment.clearMovieList();
-            } else {
-                Log.d(TAG, "fetchMovies success");
-                movieListFragment.updateMovieList(movies);
-            }
-
-        }
-    }
 }
