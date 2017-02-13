@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import coderefactory.net.popmovies.data.Movie;
 
 
@@ -18,29 +20,43 @@ public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
 
+    // Not thread-safe, but should be ok here
     private static final DecimalFormat RATING_FORMAT = new DecimalFormat("#.#");
+
+    @BindView(R.id.movie_title)
+    TextView titleView;
+
+    @BindView(R.id.movie_poster)
+    ImageView posterView;
+
+    @BindView(R.id.movie_released)
+    TextView releasedView;
+
+    @BindView(R.id.movie_rating)
+    TextView ratingView;
+
+    @BindView(R.id.movie_plot)
+    TextView plotView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
 
         final Intent detailIntent = getIntent();
 
         if (detailIntent != null && detailIntent.hasExtra(Movie.TAG)) {
             final Movie movie = detailIntent.getParcelableExtra(Movie.TAG);
             displayDetails(movie);
+        } else {
+            Log.e(TAG, "Expected intent with movie details, but got nothing");
         }
     }
 
     private void displayDetails(final Movie movie) {
         Log.d(TAG, "displayDetails");
-        final TextView titleView = (TextView) findViewById(R.id.movie_title);
-        final ImageView posterView = (ImageView) findViewById(R.id.movie_poster);
-        final TextView releasedView = (TextView) findViewById(R.id.movie_released);
-        final TextView ratingView = (TextView) findViewById(R.id.movie_rating);
-        final TextView plotView = (TextView) findViewById(R.id.movie_plot);
 
         titleView.setText(movie.getTitle());
         releasedView.setText(movie.getReleased());
