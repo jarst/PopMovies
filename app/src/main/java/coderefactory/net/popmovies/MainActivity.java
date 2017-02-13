@@ -1,10 +1,7 @@
 package coderefactory.net.popmovies;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity
     private NetworkUtil networkUtil;
 
     private MovieProvider movieProvider;
-    private MovieListFragment movieListFragment;
+    private MovieTargetFragment movieTargetFragment;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -42,9 +39,9 @@ public class MainActivity extends AppCompatActivity
 
         movieProvider = new MovieProvider(this);
 
-        movieListFragment = (MovieListFragment) getSupportFragmentManager()
+        movieTargetFragment = (MovieListFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_movie_list);
-        movieListFragment.updateMovieList(new ArrayList<Movie>());
+        movieTargetFragment.updateMovieList(new ArrayList<Movie>());
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         switch (itemId) {
             case R.id.action_refresh:
                 Log.d(TAG, "actionRefresh");
-                movieListFragment.clearMovieList();
+                movieTargetFragment.clearMovieList();
                 fetchMovies();
                 return true;
             case R.id.action_settings:
@@ -90,7 +87,7 @@ public class MainActivity extends AppCompatActivity
     private void fetchMovies() {
         Log.d(TAG, "fetchMovies");
         if (networkUtil.isNetworkAvailable()) {
-            new FetchMovieTask(this, movieProvider, movieListFragment).execute();
+            new FetchMovieTask(this, movieProvider, movieTargetFragment).execute();
         } else {
             Log.d(TAG, "Network is not available");
             Toast.makeText(MainActivity.this, getString(R.string.message_no_network), Toast.LENGTH_LONG).show();
