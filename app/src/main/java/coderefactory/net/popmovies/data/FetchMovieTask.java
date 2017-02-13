@@ -28,7 +28,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, List<Movie>> {
 
     @Override
     protected List<Movie> doInBackground(final String... params) {
-        final SortOrder sortOder = Settings.getSortOder(context);
+        final byte sortOder = Settings.getSortOder(context);
         return movieProvider.fetchMovies(sortOder);
     }
 
