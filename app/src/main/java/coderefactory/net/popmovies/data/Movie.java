@@ -75,4 +75,8 @@ public class Movie implements Parcelable {
     public String getPlot() {
         return plot;
     }
+
+    public boolean hasPosterUrl() {
+        return posterUrl != null && !posterUrl.trim().equals("");
+    }
 }

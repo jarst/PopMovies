@@ -1,19 +1,19 @@
 package coderefactory.net.popmovies;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import coderefactory.net.popmovies.data.Movie;
+import coderefactory.net.popmovies.data.MoviePosterLoader;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -55,7 +55,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    private void displayDetails(final Movie movie) {
+    private void displayDetails(@NonNull final Movie movie) {
         Log.d(TAG, "displayDetails");
 
         titleView.setText(movie.getTitle());
@@ -63,10 +63,6 @@ public class DetailActivity extends AppCompatActivity {
         ratingView.setText(RATING_FORMAT.format(movie.getRating()));
         plotView.setText(movie.getPlot());
 
-        if (movie.getPosterUrl() != null) {
-            Picasso.with(this)
-                    .load(movie.getPosterUrl())
-                    .into(posterView);
-        }
+        MoviePosterLoader.load(movie, posterView);
     }
 }

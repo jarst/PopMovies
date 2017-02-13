@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,19 +35,16 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        populateView(position);
+        final Movie movie = getItem(position);
+        if (movie != null) {
+            populateView(movie);
+        }
 
         return itemView;
     }
 
-    private void populateView(final int position) {
-        final Movie movie = getItem(position);
-
-        if (movie != null && movie.getPosterUrl() != null) {
-            Picasso.with(getContext())
-                    .load(movie.getPosterUrl())
-                    .into(viewHolder.imageView);
-        }
+    private void populateView(@NonNull final Movie movie) {
+        MoviePosterLoader.load(movie, viewHolder.imageView);
     }
 
     private static class ViewHolder {
