@@ -20,12 +20,15 @@ import java.util.ArrayList;
 import coderefactory.net.popmovies.data.FetchMovieTask;
 import coderefactory.net.popmovies.data.Movie;
 import coderefactory.net.popmovies.data.MovieProvider;
+import coderefactory.net.popmovies.data.NetworkUtil;
 
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private NetworkUtil networkUtil;
 
     private MovieProvider movieProvider;
     private MovieListFragment movieListFragment;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        networkUtil = new NetworkUtil(this);
 
         movieProvider = new MovieProvider(this);
 
@@ -84,19 +89,12 @@ public class MainActivity extends AppCompatActivity
 
     private void fetchMovies() {
         Log.d(TAG, "fetchMovies");
-        if (isNetworkAvailable()) {
+        if (networkUtil.isNetworkAvailable()) {
             new FetchMovieTask(this, movieProvider, movieListFragment).execute();
         } else {
             Log.d(TAG, "Network is not available");
             Toast.makeText(MainActivity.this, getString(R.string.message_no_network), Toast.LENGTH_LONG).show();
         }
     }
-
-    private boolean isNetworkAvailable() {
-        final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
-    }
-
 
 }
