@@ -1,8 +1,9 @@
 package coderefactory.net.popmovies.data;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
 
     public static final String TAG = Movie.class.getSimpleName();
 
@@ -20,6 +21,40 @@ public class Movie implements Serializable {
         this.rating = rating;
         this.plot = plot;
     }
+
+    protected Movie(final Parcel in) {
+        title = in.readString();
+        released = in.readString();
+        posterUrl = in.readString();
+        rating = in.readDouble();
+        plot = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(final Parcel out, final  int flags) {
+        out.writeString(title);
+        out.writeString(released);
+        out.writeString(posterUrl);
+        out.writeDouble(rating);
+        out.writeString(plot);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(final Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(final int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -39,5 +74,9 @@ public class Movie implements Serializable {
 
     public String getPlot() {
         return plot;
+    }
+
+    public boolean hasPosterUrl() {
+        return posterUrl != null && !posterUrl.trim().equals("");
     }
 }

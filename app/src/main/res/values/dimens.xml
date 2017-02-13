@@ -2,4 +2,17 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_large">26sp</dimen>
+
+    <dimen name="padding_small">4sp</dimen>
+    <dimen name="padding_medium">10dp</dimen>
+
+    <!-- Movie Grid dimensions -->
+    <dimen name="grid_column_width">75dp</dimen>
+    <dimen name="grid_spacing">5dp</dimen>
+
 </resources>

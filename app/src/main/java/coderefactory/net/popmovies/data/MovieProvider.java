@@ -61,9 +61,9 @@ public class MovieProvider {
     }
 
     @Nullable
-    public List<Movie> fetchMovies(final SortOrder order) {
+    public List<Movie> fetchMovies(final byte sortOrder) {
         try {
-            final URL url = buildUrl(order);
+            final URL url = buildUrl(sortOrder);
             final String json = fetchData(url);
             return parseResponse(json);
         } catch (Exception e) {
@@ -72,8 +72,8 @@ public class MovieProvider {
         }
     }
 
-    private URL buildUrl(final SortOrder order) {
-        final String urlPart = SortOrder.Popularity == order ? popularityPath : ratingPath;
+    private URL buildUrl(final byte  sortOrder) {
+        final String urlPart = SortOrder.isByPopularity(sortOrder) ? popularityPath : ratingPath;
 
         final Uri uri = Uri.parse(baseUrl + urlPart).buildUpon()
                 .appendQueryParameter(paramApiKey, apiKey)

@@ -64,7 +64,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 listPreference.setSummary(valueLabel);
             }
         } else {
-            Log.e(TAG, "Settings summary on unknown preference");
+            Log.e(TAG, "Trying to set summary on unknown preference");
         }
     }
 

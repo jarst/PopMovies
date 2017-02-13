@@ -8,17 +8,17 @@ import coderefactory.net.popmovies.R;
 
 public class Settings {
 
-    public static SortOrder getSortOder(final Context context) {
+    public static byte getSortOder(final Context context) {
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        final  String sortValue = sharedPreferences.getString(
+        final String sortValue = sharedPreferences.getString(
                 context.getString(R.string.pref_sort_key),
                 context.getString(R.string.pref_sort_default_value)
         );
 
         if (sortValue.equals(context.getString(R.string.pref_sort_value_popularity) ) ) {
-            return SortOrder.Popularity;
+            return SortOrder.POPULARITY;
         } else {
-            return SortOrder.Rating;
+            return SortOrder.RATING;
         }
     }
 

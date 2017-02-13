@@ -18,7 +18,7 @@ import java.util.List;
 import coderefactory.net.popmovies.data.Movie;
 import coderefactory.net.popmovies.data.MovieAdapter;
 
-public class MovieListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class MovieListFragment extends Fragment implements MovieTargetFragment, AdapterView.OnItemClickListener {
 
     private static final String TAG = MovieListFragment.class.getSimpleName();
 
@@ -38,6 +38,7 @@ public class MovieListFragment extends Fragment implements AdapterView.OnItemCli
         return fragmentView;
     }
 
+    @Override
     public void clearMovieList() {
         Log.d(TAG, "clearMovieList");
         movieAdapter.clear();
@@ -45,6 +46,7 @@ public class MovieListFragment extends Fragment implements AdapterView.OnItemCli
         movieAdapter.notifyDataSetChanged();
     }
 
+    @Override
     public void updateMovieList(final List<Movie> movies) {
         Log.d(TAG, "updateMovieList");
         movieAdapter.clear();
