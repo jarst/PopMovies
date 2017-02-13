@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
         final Intent detailIntent = getIntent();
 
         if (detailIntent != null && detailIntent.hasExtra(Movie.TAG)) {
-            final Movie movie = (Movie) detailIntent.getSerializableExtra(Movie.TAG);
+            final Movie movie = detailIntent.getParcelableExtra(Movie.TAG);
             displayDetails(movie);
         }
     }
